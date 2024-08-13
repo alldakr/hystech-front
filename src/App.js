@@ -6,13 +6,27 @@ function App() {
   const [data, setData] = useState(null);
   const fetchData = async () => {
     try {
-        const response = await axios.get('http://localhost:8000/');
+        const response = await axios.get('http://192.168.56.100:8000/hello/abc');
         console.log("response: ", response)
         setData(response.data);
     } catch (error) {
         console.error('Error fetching data: ', error);
     }
   };
+
+  const postData = async () => {
+    try {
+      const payload = {
+        title: "title_from_web",
+        message: "message_from_web",
+      };
+      const response = await axios.post('http://192.168.56.100:8000/insert', payload);
+      console.log("response: ", response)
+      setData(response.data);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  }
 
   return (
       <div>
@@ -21,11 +35,10 @@ function App() {
               <div>
                   {data ?(
                     <>
-                  <h2>Title: {data.title}</h2>
-                  <p>Body: {data.body}</p></>) : (<div>로딩중입니다...</div>)
+                  <h2>Message: {data.message}</h2></>) : (<div>로딩중입니다...</div>)
                   }
-
               </div>
+              <button onClick={postData}>Post Data</button>
       </div>
   );}
 
